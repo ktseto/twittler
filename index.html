@@ -3,25 +3,72 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <link href="style.css" type="text/css" rel="stylesheet">
   </head>
   <body>
     <script>
 
       $(document).ready(function(){
-        var $body = $('body');
-        $body.html('');
+        var currentIndex;   // not inclusive
+        const tweetsPerLoad = 3;
+        var filteredArray = streams.home;
+        var $blankTweet = $('<div class="tweet"><p><span class="handle"></span>' +
+                            '<span class="date"></span></p>' +
+                            '<p class="message"></p></div>');
+        var $filteredNote = $('<p>Showing only latest tweets from @<span class="filteredName"></span>' +
+                              '<span class="clearFilter">Clear</span></p>');
 
-        var index = streams.home.length - 1;
-        while(index >= 0){
-          var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
-          index -= 1;
+        function showTweets() {
+          var fromIndex = currentIndex - tweetsPerLoad;
+          var array = filteredArray.slice(fromIndex, fromIndex + tweetsPerLoad).reverse();
+
+          for (var tweet of array) {
+            var $tweet = $blankTweet.clone();
+
+            $tweet.find(".date").text(tweet.created_at.toLocaleString());
+            $tweet.find(".handle").text('@' + tweet.user);
+            $tweet.find(".message").text(tweet.message);
+            $tweet.appendTo(".allTweets");
+          }
+          currentIndex = fromIndex;
         }
+        
+        function getNew() {
+          currentIndex = filteredArray.length;  // reset to newest array length
+          $(".allTweets").html("");
+          showTweets();
+        }
+
+        function filterTweets() {
+          var filteredName = $(this).text().slice(1);
+          filteredArray = streams.home.filter(obj => obj.user === filteredName);
+          $filteredNote.find(".filteredName").text(filteredName);
+          $filteredNote.appendTo(".filtered");
+          getNew();
+        }
+
+        function clearAll() {
+          filteredArray = streams.home;
+          $(".filtered").html("");
+          getNew();
+        }
+
+        getNew();
+        $(".getNew").click(getNew);
+        $(".showOlder").click(showTweets);
+        $(".handle").click(filterTweets);
+        $(".clearFilter").click(clearAll);
 
       });
 
     </script>
+
+    <span class="companyName">twittler<img src="logo.png" class="logo"></span>
+    <p class="getNew">Get New Tweets</p>
+    <div class="filtered"></div>
+    <div class="allTweets"></div>
+    <p class="showOlder">Show Older Tweets</p>
+    <p class="getNew">Get New Tweets</p>
+
   </body>
 </html>

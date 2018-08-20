@@ -1,0 +1,53 @@
+body {
+  background-color: DeepSkyBlue;
+  margin: 20px;
+  font-family: Arial;
+  font-size: 15px;
+}
+.companyName {
+  font-family: "Bradley Hand";
+  font-size: 70px;
+  color: white;
+  margin-left: 130px;
+  margin-bottom: 200px;
+}
+.logo {
+  height: 70px;
+  margin-left: 20px;
+}
+.getNew, .showOlder, .clearFilter {
+  background: white;
+  width: 200px;
+  text-align: center;
+  margin-left: 180px;
+  border-radius: 5px;
+}
+.filtered {
+  height: 5px;
+}
+.tweet {
+  margin: 20px;
+  border: 2px solid white;
+  border-radius: 10px;
+  padding: 10px;
+  padding-top: 2px;
+  height: 70px;
+  width: 500px;
+
+}
+.handle, .date {
+  color: white;
+}
+.date {
+  font-size: 12px;
+  margin-left: 15px;
+}
+.message {
+  
+}
+.filtered {
+  margin-left: 100px;
+}
+.clearFilter {
+  margin-left: 20px;
+}
